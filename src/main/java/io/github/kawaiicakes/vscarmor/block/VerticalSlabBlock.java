@@ -25,23 +25,22 @@ import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
 
-// FIXME - Something is seriously wrong both here and in VerticalStairsBlock.
 @SuppressWarnings("deprecation")
 public class VerticalSlabBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty DOUBLET = BooleanProperty.create("doublet");
-    public static final VoxelShape NORTH = Shapes.box(
+    public static final VoxelShape NORTH = Block.box(
             0.0, 0.0, 0.0,
             16.0, 16.0, 8.0
     );
-    public static final VoxelShape EAST = Shapes.box(
+    public static final VoxelShape EAST = Block.box(
             8.0, 0.0, 0.0,
             16.0, 16.0, 16.0
     );
-    public static final VoxelShape SOUTH = Shapes.box(
+    public static final VoxelShape SOUTH = Block.box(
             0.0, 0.0, 8.0,
             16.0, 16.0, 16.0
     );
-    public static final VoxelShape WEST = Shapes.box(
+    public static final VoxelShape WEST = Block.box(
             0.0, 0.0, 0.0,
             8.0, 16.0, 16.0
     );
@@ -57,6 +56,11 @@ public class VerticalSlabBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
+    public boolean useShapeForLightOcclusion(BlockState pState) {
+        return pState.getValue(DOUBLET);
+    }
+
+    @Override
     public boolean supportsExternalFaceHiding(BlockState state) {
         return state.getValue(DOUBLET) != Boolean.TRUE;
     }
@@ -68,7 +72,7 @@ public class VerticalSlabBlock extends HorizontalDirectionalBlock implements Sim
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return state.getValue(DOUBLET) == Boolean.TRUE
+        return state.getValue(DOUBLET)
                 ? Shapes.block()
                 : switch (state.getValue(FACING)) {
                         case DOWN, UP -> throw new IllegalStateException();

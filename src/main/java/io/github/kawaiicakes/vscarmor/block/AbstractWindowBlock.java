@@ -7,10 +7,9 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 
 // TODO (1.1) - Collision and shape methods are required to be implemented from here for empty blockstates
+// TODO (1.1) - Camera collision
 @SuppressWarnings("deprecation")
 public abstract class AbstractWindowBlock extends RotatedPillarBlock implements WindowBlock {
     public static boolean ezPredicateLol(BlockState a, BlockGetter b, BlockPos c, EntityType<?> d) {
@@ -31,11 +30,6 @@ public abstract class AbstractWindowBlock extends RotatedPillarBlock implements 
                         .isSuffocating(AbstractWindowBlock::ezPredicate)
         );
     }
-
-    @Override
-    public abstract VoxelShape getCollisionShape(
-            BlockState state, BlockGetter world, BlockPos pos, CollisionContext context
-    );
 
     @Override
     public boolean skipRendering(BlockState state, BlockState stateFrom, Direction direction) {

@@ -1,14 +1,11 @@
 package io.github.kawaiicakes.vscarmor.block;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 
 // TODO (1.1) - Collision and shape methods are required to be implemented from here for empty blockstates
+// TODO (1.1) - Camera collision
 @SuppressWarnings("deprecation")
 public abstract class AbstractWindowVerticalSlab extends VerticalSlabBlock implements WindowBlock {
     public AbstractWindowVerticalSlab(BlockBehaviour.Properties settings) {
@@ -21,11 +18,6 @@ public abstract class AbstractWindowVerticalSlab extends VerticalSlabBlock imple
                         .isSuffocating(AbstractWindowBlock::ezPredicate)
         );
     }
-
-    @Override
-    public abstract VoxelShape getCollisionShape(
-            BlockState state, BlockGetter world, BlockPos pos, CollisionContext context
-    );
 
     @Override
     public boolean skipRendering(BlockState state, BlockState stateFrom, Direction direction) {
