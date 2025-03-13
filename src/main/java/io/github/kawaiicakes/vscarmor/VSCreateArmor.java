@@ -60,8 +60,9 @@ public class VSCreateArmor {
         }
     };
 
-    public VSCreateArmor(FMLJavaModLoadingContext context) {
-        IEventBus modEventBus = context.getModEventBus();
+    public VSCreateArmor() {
+        @SuppressWarnings("removal")
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         registerArmor();
 
