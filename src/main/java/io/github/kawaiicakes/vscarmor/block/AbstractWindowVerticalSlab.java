@@ -13,7 +13,7 @@ public abstract class AbstractWindowVerticalSlab extends VerticalSlabBlock imple
                 settings
                         .noOcclusion()
                         .isValidSpawn(AbstractWindowBlock::ezPredicateLol)
-                        .forceSolidOff()
+                        .isRedstoneConductor(AbstractWindowBlock::ezPredicate)
                         .isViewBlocking(AbstractWindowBlock::ezPredicate)
                         .isSuffocating(AbstractWindowBlock::ezPredicate)
         );

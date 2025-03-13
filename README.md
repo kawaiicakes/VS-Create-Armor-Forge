@@ -5,7 +5,7 @@ ___
 ### Elegant armor blocks designed for use with Create: Big Cannons & Valkyrien Skies.
 
 <img alt="Mod Loader" src="https://img.shields.io/badge/mod_loader-forge-ffe8e9?style=for-the-badge&labelColor=ffced2">
-<img alt="Game Version" src="https://img.shields.io/badge/game_version-1.20.1-ffe8e9?style=for-the-badge&labelColor=ffced2">
+<img alt="Game Version" src="https://img.shields.io/badge/game_version-1.19.2_|_1.20.1-ffe8e9?style=for-the-badge&labelColor=ffced2">
 <img alt="Environment" src="https://img.shields.io/badge/environment-client | server-ffe8e9?style=for-the-badge&labelColor=ffced2">
 <br>
 <a href="https://www.curseforge.com/minecraft/mc-mods/VS-Create-Armor" rel="nofollow">

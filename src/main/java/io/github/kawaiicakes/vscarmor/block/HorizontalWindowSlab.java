@@ -4,14 +4,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
-@SuppressWarnings("deprecation")
 public class HorizontalWindowSlab extends AbstractWindowSlab {
     public HorizontalWindowSlab(BlockBehaviour.Properties settings) {
         super(
                 settings
                         .noOcclusion()
                         .isValidSpawn(AbstractWindowBlock::ezPredicateLol)
-                        .forceSolidOff()
+                        .isRedstoneConductor(AbstractWindowBlock::ezPredicate)
                         .isViewBlocking(AbstractWindowBlock::ezPredicate)
                         .isSuffocating(AbstractWindowBlock::ezPredicate)
         );

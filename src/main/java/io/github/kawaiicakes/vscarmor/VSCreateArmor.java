@@ -2,12 +2,11 @@ package io.github.kawaiicakes.vscarmor;
 
 import io.github.kawaiicakes.vscarmor.block.*;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,6 +18,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +50,15 @@ public class VSCreateArmor {
 
     public static final List<String> REGISTERED = new ArrayList<>();
 
-    // TODO (1.1) - new organization scheme
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS
-            = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
+    public static final CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab("itemGroup.vscarmor_group") {
+        @Override
+        public @NotNull ItemStack makeIcon() {
+            return RegistryObject.create(
+                    ResourceLocation.fromNamespaceAndPath(MOD_ID, "light_armor"),
+                    ForgeRegistries.ITEMS
+            ).get().getDefaultInstance();
+        }
+    };
 
     public VSCreateArmor(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
@@ -61,34 +67,6 @@ public class VSCreateArmor {
 
         BLOCK_REGISTRY.register(modEventBus);
         ITEM_REGISTRY.register(modEventBus);
-
-        CREATIVE_MODE_TABS.register(
-                "vscarmor",
-                () -> CreativeModeTab.builder()
-                        .title(Component.translatable("itemGroup.vscarmor_group"))
-                        .icon(
-                                () -> RegistryObject.create(
-                                        ResourceLocation.fromNamespaceAndPath(MOD_ID, "light_armor"),
-                                        ForgeRegistries.ITEMS
-                                ).get().getDefaultInstance()
-                        )
-                        .displayItems(
-                                (displayParameters, entries) -> {
-                                    for (String string : REGISTERED) {
-                                        ResourceLocation itemId = ResourceLocation.fromNamespaceAndPath(MOD_ID, string);
-                                        entries.accept(
-                                                RegistryObject.create(
-                                                        itemId,
-                                                        ForgeRegistries.ITEMS
-                                                ).get()
-                                        );
-                                    }
-                                }
-                        )
-                        .build()
-        );
-
-        CREATIVE_MODE_TABS.register(modEventBus);
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -136,7 +114,8 @@ public class VSCreateArmor {
                     id.getPath(), () ->
                             new BlockItem(
                                     baseBlock.get(),
-                                    new Item.Properties()
+                                    // TODO (1.1) - New organization layout
+                                    new Item.Properties().tab(CREATIVE_MODE_TAB)
                             )
             );
         }
@@ -234,7 +213,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -243,7 +222,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -252,7 +231,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.75F)
                                 .explosionResistance(blastResistance * 0.75F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -261,7 +240,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -270,7 +249,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -279,7 +258,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.75F)
                                 .explosionResistance(blastResistance * 0.75F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -288,7 +267,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -297,7 +276,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -306,7 +285,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.75F)
                                 .explosionResistance(blastResistance * 0.75F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -315,7 +294,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -324,7 +303,7 @@ public class VSCreateArmor {
                 baseProperties
                         .destroyTime(hardness * 0.25F)
                         .explosionResistance(blastResistance * 0.25F)
-                        .forceSolidOn()
+                        .isRedstoneConductor((a,b,c) -> true)
                 )
         );
 
@@ -373,7 +352,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -382,7 +361,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -391,7 +370,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.75F)
                                 .explosionResistance(blastResistance * 0.75F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -400,7 +379,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -409,7 +388,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -418,7 +397,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.75F)
                                 .explosionResistance(blastResistance * 0.75F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -427,7 +406,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -436,7 +415,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -445,7 +424,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.75F)
                                 .explosionResistance(blastResistance * 0.75F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -454,7 +433,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
         registerBlock(
@@ -463,7 +442,7 @@ public class VSCreateArmor {
                         baseProperties
                                 .destroyTime(hardness * 0.25F)
                                 .explosionResistance(blastResistance * 0.25F)
-                                .forceSolidOn()
+                                .isRedstoneConductor((a,b,c) -> true)
                 )
         );
     }
