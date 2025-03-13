@@ -51,7 +51,7 @@ public class VSCreateArmor {
 
     public static final List<String> REGISTERED = new ArrayList<>();
 
-    public static final CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab("itemGroup.vscarmor_group") {
+    public static final CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab("vscarmor_group") {
         @Override
         public @NotNull ItemStack makeIcon() {
             return RegistryObject.create(
