@@ -38,6 +38,7 @@ import static net.minecraft.world.level.block.Blocks.NETHERITE_BLOCK;
 // TODO (2.0) - Connecting textures
 // TODO - (2.0+) port datagen stuff from Fabric
 
+@SuppressWarnings("removal")
 @Mod(VSCreateArmor.MOD_ID)
 public class VSCreateArmor {
     public static final String MOD_ID = "vscarmor";
@@ -54,7 +55,7 @@ public class VSCreateArmor {
         @Override
         public @NotNull ItemStack makeIcon() {
             return RegistryObject.create(
-                    ResourceLocation.fromNamespaceAndPath(MOD_ID, "light_armor"),
+                    new ResourceLocation(MOD_ID, "light_armor"),
                     ForgeRegistries.ITEMS
             ).get().getDefaultInstance();
         }
@@ -77,7 +78,7 @@ public class VSCreateArmor {
         public static void onClientSetup(FMLClientSetupEvent event) {
             for (String id : REGISTERED) {
                 RegistryObject<Block> registryObject = RegistryObject.create(
-                        ResourceLocation.fromNamespaceAndPath(MOD_ID, id),
+                        new ResourceLocation(MOD_ID, id),
                         ForgeRegistries.BLOCKS
                 );
 
@@ -107,7 +108,7 @@ public class VSCreateArmor {
         }
 
         for (String stringId : REGISTERED) {
-            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(MOD_ID, stringId);
+            ResourceLocation id = new ResourceLocation(MOD_ID, stringId);
 
             RegistryObject<Block> baseBlock = RegistryObject.create(id, ForgeRegistries.BLOCKS);
 
