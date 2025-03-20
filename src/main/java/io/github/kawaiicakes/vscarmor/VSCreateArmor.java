@@ -10,7 +10,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -54,6 +53,47 @@ public class VSCreateArmor {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS
             = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
 
+    @SuppressWarnings("removal")
+    // constructor for supporting legacy versions of Forge
+    public VSCreateArmor() {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        registerArmorLegacy();
+
+        BLOCK_REGISTRY.register(modEventBus);
+        ITEM_REGISTRY.register(modEventBus);
+
+        CREATIVE_MODE_TABS.register(
+                "vscarmor",
+                () -> CreativeModeTab.builder()
+                        .title(Component.translatable("itemGroup.vscarmor_group"))
+                        .icon(
+                                () -> RegistryObject.create(
+                                        new ResourceLocation(MOD_ID, "light_armor"),
+                                        ForgeRegistries.ITEMS
+                                ).get().getDefaultInstance()
+                        )
+                        .displayItems(
+                                (displayParameters, entries) -> {
+                                    for (String string : REGISTERED) {
+                                        ResourceLocation itemId = new ResourceLocation(MOD_ID, string);
+                                        entries.accept(
+                                                RegistryObject.create(
+                                                        itemId,
+                                                        ForgeRegistries.ITEMS
+                                                ).get()
+                                        );
+                                    }
+                                }
+                        )
+                        .build()
+        );
+
+        CREATIVE_MODE_TABS.register(modEventBus);
+
+        modEventBus.register(ClientModEventsLegacy.class);
+    }
+
     public VSCreateArmor(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 
@@ -89,9 +129,10 @@ public class VSCreateArmor {
         );
 
         CREATIVE_MODE_TABS.register(modEventBus);
+
+        modEventBus.register(ClientModEvents.class);
     }
 
-    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SuppressWarnings("removal")
         @SubscribeEvent
@@ -99,6 +140,23 @@ public class VSCreateArmor {
             for (String id : REGISTERED) {
                 RegistryObject<Block> registryObject = RegistryObject.create(
                         ResourceLocation.fromNamespaceAndPath(MOD_ID, id),
+                        ForgeRegistries.BLOCKS
+                );
+
+                if (registryObject.isPresent() && registryObject.get() instanceof WindowBlock block) {
+                    ItemBlockRenderTypes.setRenderLayer((Block) block, block.getRenderLayer());
+                }
+            }
+        }
+    }
+
+    public static class ClientModEventsLegacy {
+        @SuppressWarnings("removal")
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            for (String id : REGISTERED) {
+                RegistryObject<Block> registryObject = RegistryObject.create(
+                        new ResourceLocation(MOD_ID, id),
                         ForgeRegistries.BLOCKS
                 );
 
@@ -129,6 +187,32 @@ public class VSCreateArmor {
 
         for (String stringId : REGISTERED) {
             ResourceLocation id = ResourceLocation.fromNamespaceAndPath(MOD_ID, stringId);
+
+            RegistryObject<Block> baseBlock = RegistryObject.create(id, ForgeRegistries.BLOCKS);
+
+            ITEM_REGISTRY.register(
+                    id.getPath(), () ->
+                            new BlockItem(
+                                    baseBlock.get(),
+                                    new Item.Properties()
+                            )
+            );
+        }
+    }
+
+    @SuppressWarnings("removal")
+    static void registerArmorLegacy() {
+        for (String color : colors()) {
+            String prefix = color.isEmpty() ? "" : color + "_";
+
+            registerArmorBlockFamily(prefix + "light_armor", 3.0F, 5.0F);
+            registerArmorBlockFamily(prefix + "steel_armor", 10.0F, 7.0F);
+            registerArmorBlockFamily(prefix + "composite_armor", 28.0F, 8.0F);
+            registerArmorBlockFamily(prefix + "reinforced_armor", 50.0F, 20.0F);
+        }
+
+        for (String stringId : REGISTERED) {
+            ResourceLocation id = new ResourceLocation(MOD_ID, stringId);
 
             RegistryObject<Block> baseBlock = RegistryObject.create(id, ForgeRegistries.BLOCKS);
 
