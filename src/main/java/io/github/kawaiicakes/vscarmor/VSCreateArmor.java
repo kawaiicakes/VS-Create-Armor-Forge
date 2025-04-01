@@ -123,7 +123,7 @@ public class VSCreateArmor {
         }
     }
 
-    // TODO (1.1) - Add commented colours + patterns.
+    // TODO (1.1) - Add commented camo.
     public static String[] colors() {
         return new String[] {
                 "",
@@ -149,13 +149,16 @@ public class VSCreateArmor {
                 "32",
                 "33",
                 "dunkelgelb",
+                "mud",
+                "fern_green",
                 "panzergrau",
-                // "parade",
                 "rotbraun",
                 "ship_lower",
-                // rainbow,
+                "stealth_gray",
                 "camo_desert",
                 "camo_forest",
+                "camo_woodland_polygon",
+                "camo_gray_polygon",
                 /*
                 "camo_jungle",
                 "camo_mesa",
@@ -165,7 +168,8 @@ public class VSCreateArmor {
                 "camo_taiga"
                  */
                 "camo_bush",
-                "camo_arctic"
+                "camo_arctic",
+                "camo_rainbow"
         };
     }
 
